@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+#
+use strict;
+use warnings;
+use utf8;
+
+my $acpi;
+my $percent;
+my $full_text;
+
+# read the first line of the "acpi" command output
+open (ACPI, "cat /sys/class/backlight/intel_backlight/actual_brightness |") or die;
+$acpi = <ACPI>;
+close(ACPI);
+
+# fail on unexpected output
+if ($acpi !~ /(\d+)/) {
+	die "$acpi";
+}
+
+$percent = ($1/250)*100;
+#chomp $percent;
+$full_text = "$percent%";
+
+# print text
+print "$full_text\n";
+
+exit(0);
