@@ -1,0 +1,1 @@
+sudo mount -t cifs  //192.168.1.99/Volume_1/ /mnt/smb -o vers=1.0,user=admin,password=admin,sec=ntlm
