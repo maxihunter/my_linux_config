@@ -33,7 +33,8 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec xterm
+#bindsym $mod+Return exec xterm
+bindsym $mod+Return exec termite
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -46,6 +47,7 @@ bindsym $mod+d exec dmenu_run -l 10 -p Start:
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 exec feh --bg-scale /usr/share/feh/images/sandro.jpg
+exec xcompmgr &
 
 # change focus
 bindsym $mod+j focus left
@@ -101,13 +103,14 @@ set $workspace1 "1 "
 set $workspace2 "2 "
 set $workspace3 "3 "
 set $workspace4 "4 "
+set $workspace5 "5 "
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
 bindsym $mod+4 workspace $workspace4
-bindsym $mod+5 workspace 5
+bindsym $mod+5 workspace $workspace5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
@@ -118,7 +121,7 @@ bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
 bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+5 move container to workspace $workspace4
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
@@ -129,6 +132,7 @@ assign [class="Chromium"] $workspace2
 assign [class="Scite"] $workspace3
 assign [class="Gedit"] $workspace3
 assign [class="Pcmanfm"] $workspace4
+assign [class="vlc"] $workspace5
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
