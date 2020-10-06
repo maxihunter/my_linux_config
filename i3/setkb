@@ -1,0 +1,4 @@
+#!/bin/sh
+sleep 10
+setxkbmap -layout 'us,ru'
+setxkbmap -option 'grp:ctrl_shift_toggle'
