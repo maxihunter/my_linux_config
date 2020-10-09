@@ -5,8 +5,16 @@ echo -c "Install new software..."
 yay -S xorg-server xorg-server-common xorg-xinit xcompmgr tmux minicom networkmanager blueman net-tools python sudo termite xorg-xkbcomp xorg-xmodmap xorg-xprop xorg-xrandr xorg-xrdb xscreensaver xsensors xorg-setxkbmap \
     # xf86-video-intel \
     ttf-droid ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-font-awesome ttf-liberation ttf-opensans ttf-ubuntu-font-family ttf-nerd-fonts-symbols-mono\
-    sddm i3-gaps i3blocks dmenu rofi feh scrot pcmanfm\
-    google-chrome mpd mpc ncmpc vim ctags p7zip vlc iperf ristretto libreoffice anydesk-bin wireshark-qt \
+    sddm i3-gaps i3blocks dmenu rofi feh scrot pcmanfm dunst openssh\
+    google-chrome mpd mpc ncmpc vim ctags p7zip vlc iperf ristretto libreoffice anydesk-bin wireshark-qt
+
+# Optional applications
+#yay -S transmission-cli trems
+
+echo -c "Enable necessary startup applications..."
+sudo systemctl enable NetworkManager
+sudo systemctl enable sddm
+sudo systemctl enable mpd
 
 echo -c "Copy configuration files..."
 cp ./bashrc ~/.bashrc
