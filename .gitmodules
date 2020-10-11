@@ -1,0 +1,3 @@
+[submodule "themes/sddm/aerial-sddm-theme"]
+	path = themes/sddm/aerial-sddm-theme
+	url = https://github.com/3ximus/aerial-sddm-theme.git
