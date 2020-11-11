@@ -7,30 +7,16 @@ ch := DllCall("LoadKeyboardLayout", "Str", "00000804", "Int", 1)
 
 #a::
 SetDefaultKeyboard(0x0419)
-PostMessage 0x50, 0, %ru%,, A
 return
 
 #s::
 SetDefaultKeyboard(0x0409)
-;PostMessage 0x50, 0, %en%,, A
 return
 
 #w::
 SetDefaultKeyboard(0x0804)
-;PostMessage 0x50, 0, %ch%,, A
 return
 
-;w := DllCall("GetForegroundWindow")
-;pid := DllCall("GetWindowThreadProcessId", "UInt", w, "Ptr", 0)
-;l := DllCall("GetKeyboardLayout", "UInt", pid)
-;if (l = en)
-;{
-;    PostMessage 0x50, 0, %ru%,, A
-;}
-;else
-;{
-;   PostMessage 0x50, 0, %en%,, A
-;}
 
 SetDefaultKeyboard(LocaleID){
 	Global
