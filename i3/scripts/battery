@@ -67,7 +67,7 @@ if ($acpi =~ /(\d\d:\d\d):/) {
 }
 
 if ($percent < 15) {
-	print " ";
+	print "span font_family='FontAwesome'> </span>";
 } elsif ($percent < 30) {
 	print " ";
 } elsif ($percent < 65) {

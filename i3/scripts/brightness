@@ -18,7 +18,7 @@ if ($acpi !~ /(\d+)/) {
 	die "$acpi";
 }
 
-$percent = ($1/250)*100;
+$percent = ($1/240);
 #chomp $percent;
 $full_text = "$percent%";
 
