@@ -84,6 +84,7 @@ set viminfo='20,<1000
 "set cursorline
 "set cursorcolumn
 "hi cursorline cterm=none ctermfg=none ctermbg=black
+hi StatusLine ctermfg=black ctermbg=white
 
 set pastetoggle=<F4>
 
