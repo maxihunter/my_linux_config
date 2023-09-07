@@ -6,6 +6,8 @@ if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
 
+source $VIMRUNTIME/vimrc_example.vim
+
 " Your customised tags go first.
 set tags+=~/tags,$DOC/tags
 let parent_dir = expand("%:p:h")."/"
