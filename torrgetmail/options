@@ -1,0 +1,14 @@
+lock
+#noauth
+nobsdcomp
+nodeflate
+
++chap
+require-mschap-v2
+
+novj
+noccp
+noaccomp
+nomppe
+nomppe-40
+nomppe-128

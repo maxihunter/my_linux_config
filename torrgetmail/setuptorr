@@ -1,0 +1,66 @@
+#!/bin/sh
+
+echo -e "\033[33mSetup enviroment..."
+echo -e "\033[0m"
+#sudo apt-get update
+sudo apt-get -y install mpop
+sudo apt-get -y install uudeview
+sudo apt-get -y install cron
+
+echo "Setup mail tree..."
+echo -e "\033[0m"
+mkdir -p ~/mail/inbox/cur
+mkdir -p ~/mail/inbox/new
+mkdir -p ~/mail/inbox/tmp
+
+#sudo apt-get install 
+
+# You need too add .mpoprc file at this step
+
+echo -n "Checking dependencies..."
+echo -n -e "\033[31m"
+if [ ! -e ".mpoprc" ]
+then
+    echo "No config file for the mpop. Exiting."
+    exit 1;
+fi
+
+if [ ! -e "gettorr" ]
+then
+    echo "No command script file. Exiting."
+    exit 1;
+fi
+
+if [ ! -d "/mnt/usb/torr/todo" ]
+then
+    echo "No resource dir. Exiting."
+    exit 1;
+fi
+
+if [ ! -r "/mnt/usb/torr/todo" && ! -w "/mnt/usb/torr/todo" ]
+then
+    echo "Resource dir access failed: Access denined. Exiting."
+    exit 1;
+fi
+
+if [ ! -w `pwd` ]
+then
+    echo "Cannot write to current directory: Access denined. Exiting."
+    exit 1;
+fi
+
+echo -e "\033[32mdone."
+echo -e "\033[33mSetup cron..."
+echo -e "\033[0m"
+echo "0,30 */1 * * * `pwd`/gettorr" > torrcron
+chmod 774 torrcron
+crontab -u `whoami` ./torrcron
+
+
+echo -e "\033[33mAll Done!"
+echo -e "\033[0m"
+
+#sudo apt-get install mpop
+#sudo apt-get install mpop
+#sudo apt-get install mpop
+

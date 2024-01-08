@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ -z `mpop | grep 'new'` ]; then
+exit
+else
+mkdir /tmp/attachments
+uudeview -i ~/mail/inbox/new/* -p /tmp/attachments
+ls /tmp/attachments
+mv /tmp/attachments/*.torrent /mnt/usb/torr/todo
+rm -r /tmp/attachments
+rm ~/mail/inbox/new/*
+fi
