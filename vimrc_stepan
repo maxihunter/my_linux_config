@@ -1,0 +1,63 @@
+"" general
+source $VIMRUNTIME/defaults.vim
+
+set viminfo+=n~/.vim/viminfo
+
+let mapleader = "\<tab>"
+
+"" line numbers
+set number
+set relativenumber
+
+"" whitespaces
+set tabstop=4
+set softtabstop=4 expandtab
+set shiftwidth=4
+set list lcs=tab:\¦\ ,space:.
+" set listchars=tab:>-,space:.
+
+"" for :make command it will save the file
+set autowrite
+
+"" buffer control
+" for :e without :w
+set hidden
+map <leader>l :bn<CR>
+map <leader>h :bp<CR>
+map <leader>q :bp <BAR> bd #<CR>
+map <leader>bl :ls<CR>
+
+"" colors
+set t_Co=256   " This is may or may not needed.
+set background=dark
+colorscheme PaperColor
+
+"" plugins
+call plug#begin('~/.vim/plugged')
+"" tree
+Plug 'scrooloose/nerdtree'
+nnoremap <C-\> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+" Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+"" rainbow
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
+
+"" vim airline
+Plug 'vim-airline/vim-airline'
+" let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+" show just names, not paths
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+"" Git
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
