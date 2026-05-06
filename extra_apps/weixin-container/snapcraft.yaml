@@ -1,0 +1,27 @@
+name: WeiXin
+base: core24
+version: '1.0'
+summary: My WeiXin
+description: My app packaged from deb
+
+grade: stable
+confinement: strict
+
+apps:
+  myapp:
+    command: usr/local/bin/pgmodeler
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - home
+      - network
+
+parts:
+  myapp:
+    plugin: nil
+    source: .
+    override-build: |
+      mkdir -p $CRAFT_PART_INSTALL
+      dpkg-deb -x ./myapp.deb $CRAFT_PART_INSTALL

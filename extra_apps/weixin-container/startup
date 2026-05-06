@@ -1,0 +1,22 @@
+# apt install podman
+
+# podman build --no-cache \
+#  --build-arg USER_ID="$(id -u)" \
+#  --build-arg GROUP_ID="$(id -g)" \
+#  -t weixin-container .
+
+# run nano ./weixin-launcher-xwayland.sh
+
+# copy weixin-container.desktop to ~/.local/share/applications/weixin-container.desktop
+#
+##### open deb package and find icon
+# maxi@g8-ial:~/weixin$ mkdir /tmp/weixin-deb
+# maxi@g8-ial:~/weixin$ dpkg-deb -x /home/maxi/Downloads/WeChatLinux_x86_64.deb /tmp/weixin-deb/
+# maxi@g8-ial:~/weixin$ find /tmp/weixin-deb -iname '*.png' -o -iname '*.svg'
+# /tmp/weixin-deb/usr/share/icons/hicolor/48x48/apps/wechat.png
+# /tmp/weixin-deb/usr/share/icons/hicolor/64x64/apps/wechat.png
+# /tmp/weixin-deb/usr/share/icons/hicolor/16x16/apps/wechat.png
+# /tmp/weixin-deb/usr/share/icons/hicolor/32x32/apps/wechat.png
+# /tmp/weixin-deb/usr/share/icons/hicolor/256x256/apps/wechat.png
+# /tmp/weixin-deb/usr/share/icons/hicolor/128x128/apps/wechat.png
+# maxi@g8-ial:~/weixin$ cp /tmp/weixin-deb/usr/share/icons/hicolor/256x256/apps/wechat.png  ~/.local/share/icons/hicolor/256x256/apps/weixin.png

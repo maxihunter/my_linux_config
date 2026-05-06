@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=WeChat
+Comment=WeChat in isolated Podman container
+Exec=/home/maxi/.local/bin/weixin-container
+Icon=/home/maxi/.local/share/icons/hicolor/256x256/apps/weixin.png
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+StartupNotify=false
+StartupWMClass=wechat
