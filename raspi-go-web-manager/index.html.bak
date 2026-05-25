@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Управление сервером</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .panel {
+      width: 460px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    .server-box,
+    .service-box {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .main-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .relay-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .relay-row {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .relay-name {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #e2e8f0;
+    }
+
+    .relay-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .power-btn {
+      background: #3b82f6;
+    }
+
+    .power-btn:hover {
+      background: #2563eb;
+    }
+
+    .reset-btn {
+      background: #f59e0b;
+    }
+
+    .reset-btn:hover {
+      background: #d97706;
+    }
+
+    .on-btn {
+      background: #22c55e;
+    }
+
+    .on-btn:hover {
+      background: #16a34a;
+    }
+
+    .off-btn {
+      background: #ef4444;
+    }
+
+    .off-btn:hover {
+      background: #dc2626;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      font-size: 14px;
+      color: #cbd5e1;
+      min-height: 44px;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="title">Управление сервером</div>
+
+    <div class="server-box">
+      <div class="section-title">Основные действия</div>
+      <div class="main-buttons">
+        <button class="power-btn" id="powerBtn" onclick="serverPower()">Power</button>
+        <button class="reset-btn" id="resetBtn" onclick="serverReset()">Reset</button>
+      </div>
+      <div class="hint">
+        Power → Relay 1, Reset → Relay 2
+      </div>
+      <div class="status" id="mainStatus">Статус: готово</div>
+    </div>
+
+    <div class="service-box">
+      <div class="section-title">Ручное управление реле</div>
+
+      <div class="relay-grid">
+        <div class="relay-row" id="relay-block-1">
+          <div class="relay-name">Relay 1 (Power)</div>
+          <div class="relay-buttons">
+            <button class="on-btn" onclick="controlRelay(1, 'on')">ON</button>
+            <button class="off-btn" onclick="controlRelay(1, 'off')">OFF</button>
+          </div>
+          <div class="status" id="status1">Статус: неизвестно</div>
+        </div>
+
+        <div class="relay-row" id="relay-block-2">
+          <div class="relay-name">Relay 2 (Reset)</div>
+          <div class="relay-buttons">
+            <button class="on-btn" onclick="controlRelay(2, 'on')">ON</button>
+            <button class="off-btn" onclick="controlRelay(2, 'off')">OFF</button>
+          </div>
+          <div class="status" id="status2">Статус: неизвестно</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setStatus(relay, text) {
+      document.getElementById('status' + relay).textContent = 'Статус: ' + text;
+    }
+
+    function setMainStatus(text) {
+      document.getElementById('mainStatus').textContent = 'Статус: ' + text;
+    }
+
+    function setRelayButtonsDisabled(relay, disabled) {
+      const block = document.getElementById('relay-block-' + relay);
+      const buttons = block.querySelectorAll('button');
+      buttons.forEach(btn => btn.disabled = disabled);
+    }
+
+    function setMainButtonsDisabled(disabled) {
+      document.getElementById('powerBtn').disabled = disabled;
+      document.getElementById('resetBtn').disabled = disabled;
+    }
+
+    async function sendRelayCommand(relay, action) {
+      // =========================
+      // Реальный HTTP запрос:
+      // =========================
+      // Пример endpoint:
+      // POST /relay/1/on
+      // POST /relay/1/off
+      //
+      // Раскомментируй этот блок для реального использования:
+
+      /*
+      const response = await fetch(`/relay/${relay}/${action}`, {
+        method: 'POST'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      return await response.text();
+      */
+
+      // Демонстрация:
+      await new Promise(resolve => setTimeout(resolve, 250));
+      return action === 'on' ? `Relay ${relay} включено` : `Relay ${relay} выключено`;
+    }
+
+    async function controlRelay(relay, action) {
+      setStatus(relay, `выполняется команда "${action}"...`);
+
+      try {
+        const result = await sendRelayCommand(relay, action);
+        setStatus(relay, result || (action === 'on' ? 'включено' : 'выключено'));
+      } catch (error) {
+        setStatus(relay, 'Ошибка: ' + error.message);
+      }
+    }
+
+    async function pulseRelay(relay, label) {
+      setMainButtonsDisabled(true);
+      setRelayButtonsDisabled(relay, true);
+
+      try {
+        setMainStatus(`${label}: включение реле...`);
+        setStatus(relay, `${label}: реле включается`);
+
+        await sendRelayCommand(relay, 'on');
+        setStatus(relay, `${label}: реле включено`);
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        setMainStatus(`${label}: выключение реле...`);
+        await sendRelayCommand(relay, 'off');
+
+        setStatus(relay, `${label}: импульс выполнен`);
+        setMainStatus(`${label}: выполнено`);
+      } catch (error) {
+        setStatus(relay, `${label}: ошибка - ${error.message}`);
+        setMainStatus(`${label}: ошибка - ${error.message}`);
+      } finally {
+        setMainButtonsDisabled(false);
+        setRelayButtonsDisabled(relay, false);
+      }
+    }
+
+    function serverPower() {
+      pulseRelay(1, 'Power');
+    }
+
+    function serverReset() {
+      pulseRelay(2, 'Reset');
+    }
+  </script>
+</body>
+</html>
