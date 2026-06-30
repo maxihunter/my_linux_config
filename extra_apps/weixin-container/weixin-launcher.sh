@@ -30,6 +30,7 @@ ARGS=(
   --security-opt=no-new-privileges
   --cap-drop=ALL
   --shm-size=1g
+  --hostname="$(hostname)"
 
   -e "HOME=/home/weixin"
   -e "XDG_RUNTIME_DIR=$CONTAINER_RUNTIME"

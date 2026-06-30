@@ -33,6 +33,7 @@ ARGS=(
   --security-opt=no-new-privileges
   --cap-drop=ALL
   --shm-size=1g
+  --hostname="$(hostname)"
 
   # Basic environment
   -e "HOME=/home/weixin"
